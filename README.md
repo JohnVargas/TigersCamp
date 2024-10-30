@@ -1,7 +1,7 @@
 
 
 <p align="center">
-  <img src="tigerscamps.png" alt="Logo del Proyecto" width="200"/>
+  <img src="tigercamp.png" alt="Logo del Proyecto" width="200"/>
 </p>
 
 
