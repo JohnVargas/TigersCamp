@@ -4,10 +4,10 @@ const holidays = ["2023-11-01", "2023-11-02", "2023-12-25"];
 const availability = {};
 let selectedDays = [];
 
-// Renderizar calendario
-function renderCalendar() {
-    const calendar = document.getElementById("calendar");
-    calendar.innerHTML = "";
+// Renderizar calendario dinámico para selección de usuario
+function renderDynamicCalendar() {
+    const dynamicCalendar = document.getElementById("dynamicCalendar");
+    dynamicCalendar.innerHTML = "";
     const startDate = new Date();
     const endDate = new Date(startDate);
     endDate.setMonth(startDate.getMonth() + 2);
@@ -40,39 +40,55 @@ function renderCalendar() {
             }
         });
 
-        calendar.appendChild(dayEl);
+        dynamicCalendar.appendChild(dayEl);
         startDate.setDate(startDate.getDate() + 1);
     }
 }
 
-// Enviar disponibilidad
+// Enviar disponibilidad del usuario
 function submitAvailability() {
     const name = document.getElementById("name").value;
     if (!name) return alert("Por favor ingresa tu nombre");
     availability[name] = selectedDays;
     selectedDays = [];
-    renderCalendar();
-    updateHeatmap();
+    renderDynamicCalendar();
+    updateAggregateCalendar();
 }
 
-// Actualizar mapa de calor
-function updateHeatmap() {
-    const heatmap = document.getElementById("heatmap");
-    heatmap.innerHTML = "";
+// Renderizar calendario agregado con mapa de calor
+function updateAggregateCalendar() {
+    const aggregateCalendar = document.getElementById("aggregateCalendar");
+    aggregateCalendar.innerHTML = "";
     const datesCount = {};
 
+    // Contar disponibilidad en cada fecha
     Object.values(availability).forEach(days => {
         days.forEach(date => {
             datesCount[date] = (datesCount[date] || 0) + 1;
         });
     });
 
-    for (const date in datesCount) {
+    // Renderizar calendario agregado con "mapa de calor"
+    const startDate = new Date();
+    const endDate = new Date(startDate);
+    endDate.setMonth(startDate.getMonth() + 2);
+
+    while (startDate <= endDate) {
         const dayEl = document.createElement("div");
-        dayEl.className = `day heatmap-${Math.min(datesCount[date], 4)}`;
-        dayEl.textContent = new Date(date).getDate();
-        heatmap.appendChild(dayEl);
+        dayEl.className = "day aggregate";
+        dayEl.textContent = startDate.getDate();
+        const date = startDate.toISOString().split("T")[0];
+
+        // Agregar clase de mapa de calor según la cantidad de personas disponibles
+        const count = datesCount[date] || 0;
+        dayEl.classList.add(`aggregate-${Math.min(count, 4)}`);
+
+        aggregateCalendar.appendChild(dayEl);
+        startDate.setDate(startDate.getDate() + 1);
     }
 }
 
-document.addEventListener("DOMContentLoaded", renderCalendar);
+document.addEventListener("DOMContentLoaded", () => {
+    renderDynamicCalendar();
+    updateAggregateCalendar();
+});
