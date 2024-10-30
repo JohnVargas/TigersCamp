@@ -16,7 +16,7 @@ body {
     width: 300px;
 }
 
-#calendar, #heatmap {
+#dynamicCalendar, #aggregateCalendar {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     gap: 5px;
@@ -44,12 +44,12 @@ body {
     color: white;
 }
 
-#heatmap .day {
+.day.aggregate {
     background-color: #e0e0e0;
 }
 
-.heatmap-0 { background-color: #f7f7f7; }
-.heatmap-1 { background-color: #d4e157; }
-.heatmap-2 { background-color: #aedd2f; }
-.heatmap-3 { background-color: #81c784; }
-.heatmap-4 { background-color: #4caf50; }
+.aggregate-0 { background-color: #f7f7f7; }
+.aggregate-1 { background-color: #d4e157; }
+.aggregate-2 { background-color: #aedd2f; }
+.aggregate-3 { background-color: #81c784; }
+.aggregate-4 { background-color: #4caf50; }
